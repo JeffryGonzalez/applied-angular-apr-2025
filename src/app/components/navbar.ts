@@ -11,7 +11,7 @@ import { LinkModel } from '../types';
   template: `
     <div class="navbar bg-base-100 shadow-sm">
       <div class="navbar-start">
-        <app-navbar-dropdown />
+        <app-navbar-dropdown [links]="links()" />
         <a class="btn btn-ghost text-xl">Applied Angular Class</a>
       </div>
       <div class="navbar-center hidden lg:flex">
