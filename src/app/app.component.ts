@@ -5,7 +5,9 @@ import { NavbarComponent } from './components/navbar';
   selector: 'app-root',
   template: `
     <app-navbar />
-    <main class="container mx-auto"></main>
+    <main class="container mx-auto">
+      <p>JEff Was Here</p>
+    </main>
   `,
   styles: [],
   imports: [NavbarComponent],
