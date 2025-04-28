@@ -33,3 +33,9 @@ npx degit hypertheorytraining/angular-starter
 npm i
 code .
 ```
+
+That command to run in the `jeffs-code` folder:
+
+```sh
+npx gitpick JeffryGonzalez/applied-angular-apr-2025/ -o
+```
