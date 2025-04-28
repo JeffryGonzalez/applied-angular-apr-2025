@@ -28,7 +28,7 @@ export class NavbarComponent {
   links = signal<LinkModel[]>([
     {
       text: 'Dashboard',
-      path: '/',
+      path: 'dashboard',
     },
     {
       text: 'Developer News',
