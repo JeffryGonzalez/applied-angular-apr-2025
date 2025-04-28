@@ -1,4 +1,5 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input } from '@angular/core';
+import { LinkModel } from '../types';
 
 @Component({
   selector: 'app-navbar-center',
@@ -6,19 +7,15 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
   imports: [],
   template: `
     <ul class="menu menu-horizontal px-1">
-      <li><a>Item 1</a></li>
-      <li>
-        <details>
-          <summary>Developer News</summary>
-          <ul class="p-2">
-            <li><a>Submenu 1</a></li>
-            <li><a>Submenu 2</a></li>
-          </ul>
-        </details>
-      </li>
-      <li><a>Item 3</a></li>
+      @for (link of links(); track link.path) {
+        <li>
+          <a>{{ link.text }}</a>
+        </li>
+      }
     </ul>
   `,
   styles: ``,
 })
-export class NavbarCenterComponent {}
+export class NavbarCenterComponent {
+  links = input.required<LinkModel[]>();
+}

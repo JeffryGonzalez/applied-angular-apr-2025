@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
 import { NavbarEndComponent } from './navbar-end';
 import { NavbarCenterComponent } from './navbar-center';
 import { NavbarDropdownComponent } from './navbar-dropdown';
+import { LinkModel } from '../types';
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,7 @@ import { NavbarDropdownComponent } from './navbar-dropdown';
         <a class="btn btn-ghost text-xl">Applied Angular Class</a>
       </div>
       <div class="navbar-center hidden lg:flex">
-        <app-navbar-center />
+        <app-navbar-center [links]="links()" />
       </div>
       <div class="navbar-end">
         <app-navbar-end />
@@ -24,9 +25,9 @@ import { NavbarDropdownComponent } from './navbar-dropdown';
   styles: ``,
 })
 export class NavbarComponent {
-  links = signal([
+  links = signal<LinkModel[]>([
     {
-      text: 'Home',
+      text: 'Dashboard',
       path: '/',
     },
     {
