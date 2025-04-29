@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, resource } from '@angular/core';
 import { NewsLinkModel } from '../types';
+import { NewsRatingComponent } from '../components/news-rating';
 
 @Component({
   selector: 'app-developer-news-list',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [],
+  imports: [NewsRatingComponent],
   template: `
     @if (links.isLoading()) {
       <span class="loading loading-spinner text-warning"></span>
@@ -27,6 +28,9 @@ import { NewsLinkModel } from '../types';
                     {{ link.description }}
                   </p>
                 }
+                <div class="card-actions">
+                  <app-news-rating />
+                </div>
               </div>
             </li>
           } @empty {
