@@ -30,7 +30,21 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
         </div>
       }
 
-      <button class="btn btn-circle btn-error">X</button>
+      @if (linkHidden()) {
+        <button
+          class="btn btn-circle btn-warning btn-sm"
+          (click)="toggleHidden()"
+        >
+          -
+        </button>
+      } @else {
+        <button
+          class="btn btn-circle btn-success btn-sm"
+          (click)="toggleHidden()"
+        >
+          +
+        </button>
+      }
     </div>
   `,
   styles: ``,
@@ -40,7 +54,13 @@ export class NewsRatingComponent {
 
   linkRating = signal<1 | 2 | 3 | 4 | 5>(1);
   linkRatings = [1, 2, 3, 4, 5] as const;
+
+  toggleHidden() {
+    this.linkHidden.update((h) => !h);
+  }
   toggleLinkRead() {
     this.linkRead.update((r) => !r);
   }
+
+  linkHidden = signal(false);
 }
