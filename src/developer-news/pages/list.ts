@@ -7,33 +7,33 @@ import { NewsLinkModel } from '../types';
   imports: [],
   template: `
     @if (links.isLoading()) {
-      <p>loading...</p>
-    }
-
-    @if (links.error()) {
-      <div class="alert alert-warning">Can't load your data!</div>
+      <span class="loading loading-spinner text-warning"></span>
     } @else {
-      <ul>
-        @for (link of links.value(); track link.id) {
-          <li class="card card-border bg-base-100 w-96">
-            <div class="card-body">
-              <p class="card-title text-accent">
-                {{ link.title }}
-              </p>
-              <a [href]="link.href" class="link" target="_blank">{{
-                link.href
-              }}</a>
-              @if (link.description) {
-                <p>
-                  {{ link.description }}
+      @if (links.error()) {
+        <div class="alert alert-warning">Can't load your data!</div>
+      } @else {
+        <ul>
+          @for (link of links.value(); track link.id) {
+            <li class="card card-border bg-base-100 w-96">
+              <div class="card-body">
+                <p class="card-title text-accent">
+                  {{ link.title }}
                 </p>
-              }
-            </div>
-          </li>
-        } @empty {
-          <p>There are not links to display. Sorry. Try again later.</p>
-        }
-      </ul>
+                <a [href]="link.href" class="link" target="_blank">{{
+                  link.href
+                }}</a>
+                @if (link.description) {
+                  <p>
+                    {{ link.description }}
+                  </p>
+                }
+              </div>
+            </li>
+          } @empty {
+            <p>There are not links to display. Sorry. Try again later.</p>
+          }
+        </ul>
+      }
     }
   `,
   styles: ``,

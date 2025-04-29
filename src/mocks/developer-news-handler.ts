@@ -4,7 +4,7 @@ import { NewsLinkModel } from '../developer-news/types';
 const FAKE_DATA: NewsLinkModel[] = [
   {
     id: '1',
-    title: 'Applied Angular Course Material',
+    title: 'Applied Angular Course Materials',
     description: 'Stuff from class',
     href: 'https://applied-angular.hypertheory.com',
   },
