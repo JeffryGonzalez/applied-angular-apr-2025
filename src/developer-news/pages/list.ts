@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, resource } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  resource,
+  signal,
+} from '@angular/core';
 import { NewsLinkModel } from '../types';
 import { NewsRatingComponent } from '../components/news-rating';
 
@@ -16,6 +22,16 @@ import { NewsRatingComponent } from '../components/news-rating';
         <ul>
           @for (link of links.value(); track link.id) {
             <li class="card card-border bg-base-100 w-96">
+              @if (latestRead() === link.id) {
+                <span class="relative flex size-3">
+                  <span
+                    class="absolute inline-flex h-full w-full animate-ping rounded-full bg-sky-400 opacity-75"
+                  ></span>
+                  <span
+                    class="relative inline-flex size-3 rounded-full bg-sky-500"
+                  ></span>
+                </span>
+              }
               <div class="card-body">
                 <p class="card-title text-accent">
                   {{ link.title }}
@@ -29,7 +45,11 @@ import { NewsRatingComponent } from '../components/news-rating';
                   </p>
                 }
                 <div class="card-actions">
-                  <app-news-rating [link]="link" readPrompt="Mark As Read" />
+                  <app-news-rating
+                    [link]="link"
+                    readPrompt="Mark As Read"
+                    (linkHasBeenRead)="onLinkRead($event)"
+                  />
                 </div>
               </div>
             </li>
@@ -43,19 +63,20 @@ import { NewsRatingComponent } from '../components/news-rating';
   styles: ``,
 })
 export class ListComponent {
-  // links = signal<NewsLinkModel[]>([
-  //   {
-  //     id: '1',
-  //     title: 'Applied Angular Course Material',
-  //     description: 'Stuff from class',
-  //     href: 'https://applied-angular.hypertheory.com',
-  //   },
-  //   {
-  //     id: '99',
-  //     title: 'TypeScript Official Documentation',
-  //     href: 'https://typescriptlang.org',
-  //   },
-  // ]);
+  latestRead = signal<string | null>(null);
+
+  constructor() {
+    // effect is do something behind the scenes if the signal changes.
+    effect(() => {
+      const readId = this.latestRead();
+
+      if (readId) {
+        setTimeout(() => {
+          this.latestRead.set(null);
+        }, 1500);
+      }
+    });
+  }
 
   links = resource<NewsLinkModel[], unknown>({
     loader: () =>
@@ -63,4 +84,9 @@ export class ListComponent {
         (res) => res.json(),
       ),
   });
+
+  onLinkRead(id: string) {
+    console.log('the link has been read', id);
+    this.latestRead.set(id);
+  }
 }
