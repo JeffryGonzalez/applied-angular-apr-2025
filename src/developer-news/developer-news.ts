@@ -6,12 +6,18 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `
-    <div>
+    <div class="flex flex-row gap-4">
       <a
         class="link"
         routerLink="list"
         [routerLinkActive]="['text-secondary', 'font-bold']"
         >List Of Links</a
+      >
+      <a
+        class="link"
+        routerLink="my-links"
+        [routerLinkActive]="['text-secondary', 'font-bold']"
+        >My Links</a
       >
     </div>
 
