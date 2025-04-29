@@ -6,6 +6,7 @@ export const DEVELOPER_NEWS_ROUTES: Routes = [
   {
     path: '',
     component: DeveloperNewsComponent,
+    providers: [],
     children: [
       {
         path: 'list',
