@@ -1,4 +1,4 @@
-export type NewLinkModel = {
+export type NewsLinkModel = {
   id: string;
   title: string;
   description?: string;
