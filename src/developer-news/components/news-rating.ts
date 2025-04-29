@@ -16,7 +16,7 @@ import { NewsLinkModel } from '../types';
       <label class="label">
         <input
           type="checkbox"
-          [checked]="linkRead()"
+          [checked]="linkRead() === false"
           (click)="toggleLinkRead()"
           class="toggle"
         />
@@ -72,6 +72,9 @@ export class NewsRatingComponent {
   }
   toggleLinkRead() {
     this.linkRead.update((r) => !r);
+    if (this.linkRead()) {
+      this.linkHasBeenRead.emit(this.link().id);
+    }
   }
 
   linkHidden = signal(false);
