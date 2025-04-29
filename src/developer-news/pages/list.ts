@@ -29,7 +29,7 @@ import { NewsRatingComponent } from '../components/news-rating';
                   </p>
                 }
                 <div class="card-actions">
-                  <app-news-rating />
+                  <app-news-rating [link]="link" readPrompt="Mark As Read" />
                 </div>
               </div>
             </li>

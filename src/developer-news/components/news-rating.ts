@@ -1,4 +1,11 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  signal,
+  input,
+  output,
+} from '@angular/core';
+import { NewsLinkModel } from '../types';
 
 @Component({
   selector: 'app-news-rating',
@@ -13,7 +20,7 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
           (click)="toggleLinkRead()"
           class="toggle"
         />
-        Link Read
+        {{ readPrompt() }}
       </label>
 
       @if (linkRead()) {
@@ -50,6 +57,11 @@ import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
   styles: ``,
 })
 export class NewsRatingComponent {
+  link = input.required<NewsLinkModel>();
+  readPrompt = input('Link Read');
+
+  linkHasBeenRead = output<string>();
+
   linkRead = signal(false);
 
   linkRating = signal<1 | 2 | 3 | 4 | 5>(1);
