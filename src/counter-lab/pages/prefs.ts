@@ -7,27 +7,15 @@ import { CounterStore } from '../stores/counter-store';
   imports: [],
   template: `
     <div class="join">
-      <button
-        [disabled]="store.by() === 1"
-        (click)="store.setBy(1)"
-        class="btn join-item"
-      >
-        1
-      </button>
-      <button
-        [disabled]="store.by() === 3"
-        (click)="store.setBy(3)"
-        class="btn join-item"
-      >
-        3
-      </button>
-      <button
-        [disabled]="store.by() === 5"
-        (click)="store.setBy(5)"
-        class="btn join-item"
-      >
-        5
-      </button>
+      @for (by of store.byValues; track by) {
+        <button
+          [disabled]="store.by() === by"
+          (click)="store.setBy(by)"
+          class="btn join-item"
+        >
+          {{ by }}
+        </button>
+      }
     </div>
   `,
   styles: ``,

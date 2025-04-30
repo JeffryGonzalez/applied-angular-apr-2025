@@ -4,11 +4,15 @@ import {
   signalStore,
   withComputed,
   withMethods,
+  withProps,
   withState,
 } from '@ngrx/signals';
+const BY_VALUES = [1, 3, 5] as const;
+
+type ByValues = (typeof BY_VALUES)[number];
 
 type CounterState = {
-  by: 1 | 3 | 5;
+  by: ByValues;
   current: number;
 };
 
@@ -17,10 +21,15 @@ export const CounterStore = signalStore(
     by: 1,
     current: 0,
   }),
+  withProps(() => {
+    return {
+      byValues: BY_VALUES,
+    };
+  }),
   withMethods((store) => {
     // some magic can happen here.
     return {
-      setBy: (by: 1 | 3 | 5) => {
+      setBy: (by: ByValues) => {
         patchState(store, { by });
       },
       increment: () => {
