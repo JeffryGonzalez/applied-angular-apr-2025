@@ -40,7 +40,7 @@ It will look like this:
 ```
   {
     path: 'counter-lab',
-    loadChildren: () =>import('./counter/counter.routes').then(r => r.COUNTER_ROUTES)
+    loadChildren: () =>import('./counter-lab/counter.routes').then(r => r.COUNTER_ROUTES)
   },
 ```
 
