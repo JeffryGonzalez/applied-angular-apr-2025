@@ -44,5 +44,9 @@ export class NavbarComponent {
       text: 'Demos',
       path: 'demos',
     },
+    {
+      text: 'Counter',
+      path: 'counter',
+    },
   ]);
 }

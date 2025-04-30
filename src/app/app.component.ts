@@ -8,7 +8,6 @@ import { HitCounter } from '@app-shared/services/hit-counter';
   template: `
     <app-navbar />
     <main class="container mx-auto">
-      <p>{{ hc.getCount() }}</p>
       <!-- Put the content of the active route here -->
       <router-outlet />
     </main>
