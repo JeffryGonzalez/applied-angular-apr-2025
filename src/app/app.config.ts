@@ -7,7 +7,8 @@ import {
 } from '@angular/router';
 
 import { routes } from './app.routes';
-import { HitCounter } from '../shared/services/hit-counter';
+import { HitCounter } from '@app-shared/services/hit-counter';
+import { AuthStore } from '@app-shared/stores/auth-store';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,5 +19,6 @@ export const appConfig: ApplicationConfig = {
       withPreloading(PreloadAllModules),
     ),
     HitCounter, // a singleton provided globally through my application - still created lazily, but never taken away (unless you reload the page)
+    AuthStore,
   ],
 };

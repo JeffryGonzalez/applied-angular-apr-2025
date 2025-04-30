@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { HitCounter } from '../shared/services/hit-counter';
+import { AuthStore } from '@app-shared/stores/auth-store';
 
 @Component({
   providers: [],
@@ -10,7 +10,10 @@ import { HitCounter } from '../shared/services/hit-counter';
   template: `
     <div class="flex flex-row gap-4">
       <a class="link" routerLink="signals">Signals</a>
-      <a class="link" routerLink="shared-state">Shared State</a>
+      @if (store.isLoggedIn()) {
+        <a class="link" routerLink="shared-state">Shared State</a>
+      }
+      <a class="link" routerLink="info">Info</a>
     </div>
 
     <router-outlet />
@@ -18,5 +21,5 @@ import { HitCounter } from '../shared/services/hit-counter';
   styles: ``,
 })
 export class DemosComponent {
-  hc = inject(HitCounter);
+  store = inject(AuthStore);
 }
