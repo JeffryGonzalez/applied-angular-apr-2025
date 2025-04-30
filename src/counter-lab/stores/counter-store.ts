@@ -2,7 +2,9 @@ import { computed } from '@angular/core';
 import {
   patchState,
   signalStore,
+  watchState,
   withComputed,
+  withHooks,
   withMethods,
   withProps,
   withState,
@@ -44,5 +46,21 @@ export const CounterStore = signalStore(
     return {
       decrementDisabled: computed(() => store.current() - store.by() < 0),
     };
+  }),
+  withHooks({
+    onInit(store) {
+      // check to see if the value is in local storage, and if it is,
+      const savedState = localStorage.getItem('counter-store');
+      if (savedState) {
+        // parse it, and patch the state with it.
+        const parsedState = JSON.parse(savedState) as CounterState; // Typescript, trust me on this one.
+        patchState(store, parsedState);
+        // patch the state with it.
+      }
+      // and then watch the state for changes, and save it.
+      watchState(store, (state) => {
+        localStorage.setItem('counter-store', JSON.stringify(state));
+      });
+    },
   }),
 );
