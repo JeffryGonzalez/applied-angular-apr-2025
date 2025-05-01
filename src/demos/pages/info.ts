@@ -13,13 +13,21 @@ import {
   Validators,
 } from '@angular/forms';
 import { InfoStore } from '../stores/info-store';
-import { tap } from 'rxjs';
+import { debounce, debounceTime, tap } from 'rxjs';
 import { DevBlockComponent } from '../../shared/components/dev-block';
+import { ContactStore } from '../services/contact-store';
+import { ContactCreateModel } from '../types';
+import { ContactListComponent } from '../components/contact-list';
 @Component({
   selector: 'app-demos-info',
   providers: [InfoStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, JsonPipe, DevBlockComponent],
+  imports: [
+    ReactiveFormsModule,
+    JsonPipe,
+    DevBlockComponent,
+    ContactListComponent,
+  ],
   template: `
     <form [formGroup]="form" (ngSubmit)="addInfo()">
       <fieldset
@@ -27,6 +35,14 @@ import { DevBlockComponent } from '../../shared/components/dev-block';
       >
         <legend class="fieldset-legend">Add A Contact</legend>
 
+        <label class="label" for="name">Name</label>
+        <input
+          formControlName="name"
+          name="name"
+          type="text"
+          class="input"
+          placeholder="Jenny"
+        />
         <label class="label" for="email">Email Address</label>
         <input
           formControlName="email"
@@ -67,28 +83,36 @@ import { DevBlockComponent } from '../../shared/components/dev-block';
         {{ form.value | json }}
       </app-dev-block>
     }
+
+    <app-demos-contact-list />
   `,
   styles: ``,
 })
 export class InfoComponent {
+  contactStore = inject(ContactStore);
   isDev = isDevMode();
   store = inject(InfoStore);
   form = new FormGroup({
+    name: new FormControl('', { nonNullable: true }),
     email: new FormControl('', {
+      nonNullable: true,
       validators: [Validators.email, Validators.required],
     }),
     phone: new FormControl('', {
+      nonNullable: true,
       validators: [Validators.required],
     }),
   });
 
   constructor() {
     // TODO UNSUBSCRIBE
+
     this.form.controls.email.setValue(this.store.email());
     this.form.controls.phone.setValue(this.store.phone());
 
     this.form.valueChanges
       .pipe(
+        debounceTime(250),
         takeUntilDestroyed(), // when this component is destroyed, unsubscribe
         tap((value) => {
           this.store.setEmail(value.email || '');
@@ -104,6 +128,8 @@ export class InfoComponent {
       console.log('Form is invalid');
     } else {
       console.log(this.form.value);
+      const contactToAdd = this.form.value as ContactCreateModel;
+      this.contactStore.addContact(contactToAdd);
       this.form.reset();
     }
   }

@@ -9,6 +9,7 @@ import {
 import { routes } from './app.routes';
 import { HitCounter } from '@app-shared/services/hit-counter';
 import { AuthStore } from '@app-shared/stores/auth-store';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,5 +21,6 @@ export const appConfig: ApplicationConfig = {
     ),
     HitCounter, // a singleton provided globally through my application - still created lazily, but never taken away (unless you reload the page)
     AuthStore,
+    provideHttpClient(),
   ],
 };
