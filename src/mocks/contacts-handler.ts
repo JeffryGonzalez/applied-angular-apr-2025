@@ -30,6 +30,7 @@ export const ContactsHandler = [
       id: crypto.randomUUID(),
       createdAt: new Date().toISOString(),
     };
+    fakeContacts.push(contact);
     return HttpResponse.json(contact);
   }),
 ];

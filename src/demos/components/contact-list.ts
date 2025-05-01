@@ -7,6 +7,9 @@ import { DatePipe } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [DatePipe],
   template: `
+    @if (store.loading()) {
+      <span class="loading loading-infinity loading-lg"></span>
+    }
     @for (contact of store.entities(); track contact.id) {
       <div class="card bg-base-200 shadow-xl mb-2">
         <div class="card-body">
