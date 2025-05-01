@@ -26,9 +26,7 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
     <dialog id="devmodal" class="modal">
       <div class="modal-box">
         <h2 class="text-2xl font-bold">{{ title() }}</h2>
-        <pre
-          class="bg-black text-green-500 font-mono text-xl  p4 rounded-lg border-2 border-yellow-300"
-        >
+        <pre class="">
         <ng-content></ng-content>
 </pre>
         <div class="modal-action">
