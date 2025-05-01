@@ -1,5 +1,10 @@
 import { JsonPipe } from '@angular/common';
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  inject,
+  isDevMode,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   FormControl,
@@ -9,17 +14,18 @@ import {
 } from '@angular/forms';
 import { InfoStore } from '../stores/info-store';
 import { tap } from 'rxjs';
+import { DevBlockComponent } from '../../shared/components/dev-block';
 @Component({
   selector: 'app-demos-info',
   providers: [InfoStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, JsonPipe],
+  imports: [ReactiveFormsModule, JsonPipe, DevBlockComponent],
   template: `
     <form [formGroup]="form" (ngSubmit)="addInfo()">
       <fieldset
         class="fieldset bg-base-200 border-base-300 rounded-box w-xs border p-4"
       >
-        <legend class="fieldset-legend">Your Contact Information Please</legend>
+        <legend class="fieldset-legend">Add A Contact</legend>
 
         <label class="label" for="email">Email Address</label>
         <input
@@ -29,18 +35,16 @@ import { tap } from 'rxjs';
           class="input"
           placeholder="jenny@company.com"
         />
-        @if (
-          form.controls.email.errors &&
-          (form.controls.email.touched || form.controls.email.dirty)
-        ) {
+        @let emailField = form.controls.email;
+        @if (emailField.errors && (emailField.touched || emailField.dirty)) {
           <div class="alert alert-error mt-2">
             <div class="flex-1">
               <p>We have errors!</p>
             </div>
-            @if (form.controls.email.hasError('email')) {
+            @if (emailField.hasError('email')) {
               <p>Invalid email address</p>
             }
-            @if (form.controls.email.hasError('required')) {
+            @if (emailField.hasError('required')) {
               <p>Email can't be blank</p>
             }
           </div>
@@ -58,13 +62,16 @@ import { tap } from 'rxjs';
       <button type="submit" class="btn btn-primary mt-4">Submit</button>
       <button type="reset" class="btn btn-secondary mt-4">Reset</button>
     </form>
-    <pre>
-    {{ form.value | json }}
-</pre>
+    @defer (when isDev) {
+      <app-dev-block title="Form Value">
+        {{ form.value | json }}
+      </app-dev-block>
+    }
   `,
   styles: ``,
 })
 export class InfoComponent {
+  isDev = isDevMode();
   store = inject(InfoStore);
   form = new FormGroup({
     email: new FormControl('', {
